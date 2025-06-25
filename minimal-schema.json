@@ -176,7 +176,7 @@
                                   "properties": {
                                     "type": "object",
                                     "properties": {
-                                      "varTracker": {
+                                      "variableState": {
                                         "type": "string"
                                       }
                                     }
