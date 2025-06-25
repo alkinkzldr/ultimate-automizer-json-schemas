@@ -1,0 +1,246 @@
+{
+  "$schema": "http://json.schema.org/draft-07/schema#",
+  "description": "Static Analysis Results Format (SARIF) Version 2.1.0-rtm.5 JSON Schema: a standard format for the output of static analysis tools.",
+  "properties": {
+    "$schema": {
+      "description": "The URI of the JSON schema corresponding to the version.",
+      "type": "string",
+      "format": "uri"
+    },
+    "version": {
+      "description": "The SARIF format version of this log file.",
+      "enum": ["2.1.0"]
+    },
+    "runs": {
+      "description": "The set of runs contained in this log file.",
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": false,
+      "items": {
+        "type": "object",
+        "properties": {
+          "tool": {
+            "description": "The analysis tool that was run.",
+            "type": "object",
+            "properties": {
+              "driver": {
+                "description": "A component, such as a plug-in or the driver, of the analysis tool that was run.",
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "description": "The name of the tool component.",
+                    "type": "string"
+                  },
+                  "informationUri": {
+                    "description": "The absolute URI at which information about this version of the tool component can be found.",
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "rules": {
+                    "description": "An array of reportingDescriptor objects relevant to the analysis performed by the tool component.",
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "description": "A stable, opaque identifier for the report.",
+                          "type": "string"
+                        },
+                        "name": {
+                          "description": "A report identifier that is understandable to an end user.",
+                          "type": "string"
+                        },
+                        "shortDescription": {
+                          "description": "A concise description of the report. Should be a single sentence that is understandable when visible space is limited to a single line of text.",
+                          "type": "object",
+                          "properties": {
+                            "text": {
+                              "description": "A plain text message string.",
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "fullDescription": {
+                          "description": "A description of the report. Should, as far as possible, provide details sufficient to enable resolution of any problem indicated by the result.",
+                          "type": "object",
+                          "properties": {
+                            "text": {
+                              "description": "A plain text message string.",
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "helpUri": {
+                          "description": "A URI where the primary documentation for the report can be found.",
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "defaultConfiguration": {
+                          "description": "Default reporting configuration information.",
+                          "type": "object",
+                          "properties": {
+                            "level": {
+                              "description": "Specifies the failure level for the report.",
+                              "default": "warning",
+                              "enum": ["none", "note", "warning", "error"]
+                            }
+                          }
+                        }
+                      },
+                      "required": ["id"]
+                    }
+                  }
+                },
+                "required": ["name"]
+              }
+            },
+            "required": ["driver"]
+          },
+          "results": {
+            "description": "The set of results contained in an SARIF log.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "ruleId": {
+                  "description": "The stable, unique identifier of the rule, if any, to which this result is relevant.",
+                  "type": "string"
+                },
+                "level": {
+                  "description": "A value specifying the severity level of the result.",
+                  "default": "warning",
+                  "enum": ["none", "note", "warning", "error"]
+                },
+                "message": {
+                  "description": "Encapsulates a message intended to be read by the end user.",
+                  "type": "object",
+                  "properties": {
+                    "text": {
+                      "description": "A plain text message string.",
+                      "type": "string"
+                    }
+                  }
+                },
+                "locations": {
+                  "description": "The set of locations where the result was detected.",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "physicalLocation": {
+                        "description": "A physical location relevant to a result.",
+                        "type": "object",
+                        "properties": {
+                          "artifactLocation": {
+                            "description": "The location of the artifact.",
+                            "type": "object",
+                            "properties": {
+                              "uri": {
+                                "description": "A string containing a valid relative or absolute URI.",
+                                "type": "string",
+                                "format": "uri-reference"
+                              }
+                            }
+                          },
+                          "region": {
+                            "description": "A region within an artifact where a result was detected.",
+                            "type": "object",
+                            "properties": {
+                              "startLine": {
+                                "description": "The line number of the first character in the region.",
+                                "type": "integer",
+                                "minimum": 1
+                              },
+                              "startColumn": {
+                                "description": "The column number of the first character in the region.",
+                                "type": "integer",
+                                "minimum": 1
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "codeFlows": {
+                  "description": "An array of 'codeFlow' objects relevant to the result.",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "threadFlows": {
+                        "description": "An array of one or more unique threadFlow objects, each of which describes the progress of a program through a thread of execution.",
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "locations": {
+                              "description": "A temporally ordered array of 'threadFlowLocation' objects, each of which describes a location visited by the tool while producing the result.",
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "location": {
+                                    "description": "A location within a programming artifact.",
+                                    "type": "object",
+                                    "properties": {
+                                      "physicalLocation": {
+                                        "type": "object",
+                                        "properties": {
+                                          "artifactLocation": {
+                                            "type": "object",
+                                            "properties": {
+                                              "uri": {
+                                                "type": "string",
+                                                "format": "uri-reference"
+                                              }
+                                            }
+                                          },
+                                          "region": {
+                                            "type": "object",
+                                            "properties": {
+                                              "startLine": {
+                                                "type": "integer",
+                                                "minimum": 1
+                                              }
+                                            }
+                                          }
+                                        }
+                                      },
+                                      "message": {
+                                        "type": "object",
+                                        "properties": {
+                                          "text": {
+                                            "type": "string"
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "properties": {
+                                    "description": "Key/value pairs that provide additional information about the threadflow location.",
+                                    "type": "object",
+                                    "additionalProperties": true
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "required": ["message"]
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["version", "runs"],
+  "title": "Static Analysis Results Format (SARIF) Version 2.1.0-rtm.5 JSON Schema",
+  "type": "object"
+}
