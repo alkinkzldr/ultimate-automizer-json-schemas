@@ -1,0 +1,200 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/schemas/minimal-sarif-schema.json",
+  "title": "Minimal SARIF Subset Schema",
+  "type": "object",
+  "required": [
+    "version",
+    "runs"
+  ],
+  "properties": {
+    "version": {
+      "type": "string",
+      "enum": [
+        "2.1.0"
+      ]
+    },
+    "$schema": {
+      "type": "string",
+      "format": "uri"
+    },
+    "runs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "tool",
+          "results"
+        ],
+        "properties": {
+          "tool": {
+            "type": "object",
+            "required": [
+              "driver"
+            ],
+            "properties": {
+              "driver": {
+                "type": "object",
+                "required": [
+                  "name"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "rules": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "id"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "shortDescription": {
+                          "type": "object",
+                          "properties": {
+                            "text": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "fullDescription": {
+                          "type": "object",
+                          "properties": {
+                            "text": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "ruleId",
+                "message",
+                "locations"
+              ],
+              "properties": {
+                "ruleId": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "object",
+                  "properties": {
+                    "text": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "locations": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "physicalLocation": {
+                        "type": "object",
+                        "properties": {
+                          "artifactLocation": {
+                            "type": "object",
+                            "properties": {
+                              "uri": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "region": {
+                            "type": "object",
+                            "properties": {
+                              "startLine": {
+                                "type": "integer"
+                              },
+                              "startColumn": {
+                                "type": "integer"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "codeFlows": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "threadFlows": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "locations": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "location": {
+                                    "type": "object",
+                                    "properties": {
+                                      "physicalLocation": {
+                                        "type": "object",
+                                        "properties": {
+                                          "artifactLocation": {
+                                            "type": "object",
+                                            "properties": {
+                                              "uri": {
+                                                "type": "string"
+                                              }
+                                            }
+                                          },
+                                          "region": {
+                                            "type": "object",
+                                            "properties": {
+                                              "startLine": {
+                                                "type": "integer"
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "properties": {
+                                    "type": "object",
+                                    "properties": {
+                                      "varTracker": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
