@@ -1,0 +1,302 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://raw.githubusercontent.com/alkinkzldr/ultimate-automizer-json-schemas/refs/heads/main/subset_schema.json",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Ultimate",
+          "informationUri": "https://www.ultimate-pa.org/automizer/",
+          "rules": [
+            {
+              "id": "ARRAY_INDEX_OUT_OF_BOUNDS",
+              "name": "array index can be out of bounds",
+              "shortDescription": {
+                "text": "array index can be out of bounds"
+              },
+              "fullDescription": {
+                "text": "Accessing an array with an index that may exceed its bounds can cause undefined behavior."
+              },
+              "helpUri": "https://ultimate-pa.org/rules/ARRAY_INDEX_OUT_OF_BOUNDS",
+              "defaultConfiguration": {
+                "level": "error"
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "ARRAY_INDEX_OUT_OF_BOUNDS",
+          "level": "error",
+          "message": {
+            "text": "array index can be out of bounds\n\nWe found a FailurePath:..."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "example.c"
+                },
+                "region": {
+                  "startLine": 8,
+                  "startColumn": 9
+                }
+              }
+            }
+          ],
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "example.c"
+                          },
+                          "region": {
+                            "startLine": 7
+                          }
+                        },
+                        "message": {
+                          "text": "i = 0"
+                        },
+                        "properties": {
+                          "varTracker": {
+                            "i": 0
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "example.c"
+                          },
+                          "region": {
+                            "startLine": 8
+                          }
+                        },
+                        "message": {
+                          "text": "buffer[i] = i * 2"
+                        },
+                        "properties": {
+                          "varTracker": {
+                            "i": 0
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "example.c"
+                          },
+                          "region": {
+                            "startLine": 7
+                          }
+                        },
+                        "message": {
+                          "text": "i = 1"
+                        },
+                        "properties": {
+                          "varTracker": {
+                            "i": 1
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "example.c"
+                          },
+                          "region": {
+                            "startLine": 8
+                          }
+                        },
+                        "message": {
+                          "text": "buffer[i] = i * 2"
+                        },
+                        "properties": {
+                          "varTracker": {
+                            "i": 1
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "example.c"
+                          },
+                          "region": {
+                            "startLine": 7
+                          }
+                        },
+                        "message": {
+                          "text": "i = 2"
+                        },
+                        "properties": {
+                          "varTracker": {
+                            "i": 2
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "example.c"
+                          },
+                          "region": {
+                            "startLine": 8
+                          }
+                        },
+                        "message": {
+                          "text": "buffer[i] = i * 2"
+                        },
+                        "properties": {
+                          "varTracker": {
+                            "i": 2
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "example.c"
+                          },
+                          "region": {
+                            "startLine": 7
+                          }
+                        },
+                        "message": {
+                          "text": "i = 3"
+                        },
+                        "properties": {
+                          "varTracker": {
+                            "i": 3
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "example.c"
+                          },
+                          "region": {
+                            "startLine": 8
+                          }
+                        },
+                        "message": {
+                          "text": "buffer[i] = i * 2"
+                        },
+                        "properties": {
+                          "varTracker": {
+                            "i": 3
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "example.c"
+                          },
+                          "region": {
+                            "startLine": 7
+                          }
+                        },
+                        "message": {
+                          "text": "i = 4"
+                        },
+                        "properties": {
+                          "varTracker": {
+                            "i": 4
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "example.c"
+                          },
+                          "region": {
+                            "startLine": 8
+                          }
+                        },
+                        "message": {
+                          "text": "buffer[i] = i * 2"
+                        },
+                        "properties": {
+                          "varTracker": {
+                            "i": 4
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "example.c"
+                          },
+                          "region": {
+                            "startLine": 7
+                          }
+                        },
+                        "message": {
+                          "text": "i = 5"
+                        },
+                        "properties": {
+                          "varTracker": {
+                            "i": 5
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "example.c"
+                          },
+                          "region": {
+                            "startLine": 8
+                          }
+                        },
+                        "message": {
+                          "text": "buffer[i] = i * 2"
+                        },
+                        "properties": {
+                          "varTracker": {
+                            "i": 5
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
