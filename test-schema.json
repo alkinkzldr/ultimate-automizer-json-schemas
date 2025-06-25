@@ -1,0 +1,416 @@
+"externalProperties": {
+"description": "The top-level element of an external property file.",
+"type": "object",
+"additionalProperties": false,
+"properties": {
+"schema": {
+"description": "The URI of the JSON schema corresponding to the version of the external property file format.",
+"type": "string",
+"format": "uri"
+},
+"version": {
+"description": "The SARIF format version of this external properties object.",
+"enum": [
+"2.1.0"
+]
+},
+"driver": {
+"$ref": "#/definitions/toolComponent",
+"description": "The analysis tool object that will be merged with a separate run."
+
+},
+"result": {
+"description": "A result produced by an analysis tool.",
+"additionalProperties": false,
+"type": "object",
+"properties": {
+"ruleId": {
+"description": "The stable, unique identifier of the rule, if any, to which this notification is relevant. This member can be used to retrieve rule metadata from the rules dictionary, if it exists.",
+"type": "string"
+},
+"ruleIndex": {
+"description": "The index within the tool component rules array of the rule object associated with this result.",
+"type": "integer",
+"default": -1,
+"minimum": -1
+},
+"rule": {
+"$ref": "#/definitions/reportingDescriptorReference",
+"description": "A reference used to locate the rule descriptor relevant to this result."
+
+},
+"level": {
+"description": "A value specifying the severity level of the result.",
+"default": "warning",
+"enum": [
+"none",
+"note",
+"warning",
+"error"
+]
+},
+"message": {
+"$ref": "#/definitions/message",
+"description": "A message that describes the result. The first sentence of the message only will be displayed when visible space is limited."
+},
+"locations": {
+"description": "The set of locations where the result was detected. Specify only one location unless the problem indicated by the result can only be corrected by making a change at every specified location.",
+"type": "array",
+"minItems": 0,
+"uniqueItems": false,
+"default": [],
+"items": {
+"$ref": "#/definitions/location"
+}
+},
+"codeFlows": {
+"description": "An array of 'codeFlow' objects relevant to the result.",
+"type": "array",
+"minItems": 0,
+"uniqueItems": false,
+"default": [],
+"items": {
+"$ref": "#/definitions/codeFlow"
+}
+},
+"relatedLocations": {
+"description": "A set of locations relevant to this result.",
+"type": "array",
+"minItems": 0,
+"uniqueItems": true,
+"default": [],
+"items": {
+"$ref": "#/definitions/location"
+}
+},
+"provenance": {
+"$ref": "#/definitions/resultProvenance",
+"description": "Information about how and when the result was detected."
+},
+"properties": {
+"$ref": "#/definitions/propertyBag",
+"description": "Key/value pairs that provide additional information about the result."
+}
+},
+"required": [
+"message"
+]
+
+
+
+},
+"physicalLocation": {
+"description": "A physical location relevant to a result. Specifies a reference to a programming artifact together with a range of bytes or characters within that artifact.",
+"additionalProperties": false,
+"type": "object",
+"properties": {
+"address": {
+"$ref": "#/definitions/address",
+"description": "The address of the location."
+},
+"artifactLocation": {
+"$ref": "#/definitions/artifactLocation",
+"description": "The location of the artifact."
+},
+"region": {
+"$ref": "#/definitions/region",
+"description": "Specifies a portion of the artifact."
+},
+"contextRegion": {
+"$ref": "#/definitions/region",
+"description": "Specifies a portion of the artifact that encloses the region. Allows a viewer to display additional context around the region."
+},
+"properties": {
+"$ref": "#/definitions/propertyBag",
+"description": "Key/value pairs that provide additional information about the physical location."
+}
+},
+"anyOf": [
+{
+"required": [
+"address"
+]
+},
+{
+"required": [
+"artifactLocation"
+]
+}
+]
+},
+"propertyBag": {
+"description": "Key/value pairs that provide additional information about the object.",
+"type": "object",
+"additionalProperties": true,
+"properties": {
+"tags": {
+"description": "A set of distinct strings that provide additional information.",
+"type": "array",
+"minItems": 0,
+"uniqueItems": true,
+"default": [],
+"items": {
+"type": "string"
+}
+}
+}
+
+
+
+
+},
+"codeFlow": {
+"description": "A set of threadFlows which together describe a pattern of code execution relevant to detecting a result.",
+"additionalProperties": false,
+"type": "object",
+"properties": {
+"message": {
+"$ref": "#/definitions/message",
+"description": "A message relevant to the code flow."
+},
+"threadFlows": {
+"description": "An array of one or more unique threadFlow objects, each of which describes the progress of a program through a thread of execution.",
+"type": "array",
+"minItems": 1,
+"uniqueItems": false,
+"items": {
+"$ref": "#/definitions/threadFlow"
+}
+},
+"properties": {
+"$ref": "#/definitions/propertyBag",
+"description": "Key/value pairs that provide additional information about the code flow."
+}
+},
+"required": [
+"threadFlows"
+]
+
+},
+"threadFlow": {
+"description": "Describes a sequence of code locations that specify a path through a single thread of execution such as an operating system or fiber.",
+"type": "object",
+"additionalProperties": false,
+"properties": {
+"id": {
+"description": "An string that uniquely identifies the threadFlow within the codeFlow in which it occurs.",
+"type": "string"
+},
+"message": {
+"$ref": "#/definitions/message",
+"description": "A message relevant to the thread flow."
+},
+"initialState": {
+"description": "Values of relevant expressions at the start of the thread flow that may change during thread flow execution.",
+"type": "object",
+"additionalProperties": {
+"$ref": "#/definitions/multiformatMessageString"
+}
+},
+"immutableState": {
+"description": "Values of relevant expressions at the start of the thread flow that remain constant.",
+"type": "object",
+"additionalProperties": {
+"$ref": "#/definitions/multiformatMessageString"
+}
+},
+"locations": {
+"description": "A temporally ordered array of 'threadFlowLocation' objects, each of which describes a location visited by the tool while producing the result.",
+"type": "array",
+"minItems": 1,
+"uniqueItems": false,
+"items": {
+"$ref": "#/definitions/threadFlowLocation"
+}
+},
+"properties": {
+"$ref": "#/definitions/propertyBag",
+"description": "Key/value pairs that provide additional information about the thread flow."
+}
+},
+"required": [
+"locations"
+]
+},
+"threadFlowLocation": {
+"description": "A location visited by an analysis tool while simulating or monitoring the execution of a program.",
+"additionalProperties": false,
+"type": "object",
+"properties": {
+"index": {
+"description": "The index within the run threadFlowLocations array.",
+"type": "integer",
+"default": -1,
+"minimum": -1
+},
+"location": {
+"$ref": "#/definitions/location",
+"description": "The code location."
+},
+"state": {
+"description": "A dictionary, each of whose keys specifies a variable or expression, the associated value of which represents the variable or expression value. For an annotation of kind 'continuation', for example, this dictionary might hold the current assumed values of a set of global variables.",
+"type": "object",
+"additionalProperties": {
+"$ref": "#/definitions/multiformatMessageString"
+}
+},
+"nestingLevel": {
+"description": "An integer representing a containment hierarchy within the thread flow.",
+"type": "integer",
+"minimum": 0
+
+},
+"properties": {
+"$ref": "#/definitions/propertyBag",
+"description": "Key/value pairs that provide additional information about the threadflow location."
+}
+}
+
+},
+"region": {
+"description": "A region within an artifact where a result was detected.",
+"additionalProperties": false,
+"type": "object",
+"properties": {
+"startLine": {
+"description": "The line number of the first character in the region.",
+"type": "integer",
+"minimum": 1
+},
+"startColumn": {
+"description": "The column number of the first character in the region.",
+"type": "integer",
+"minimum": 1
+},
+"endLine": {
+"description": "The line number of the last character in the region.",
+"type": "integer",
+"minimum": 1
+},
+"endColumn": {
+"description": "The column number of the character following the end of the region.",
+"type": "integer",
+"minimum": 1
+},
+"message": {
+"$ref": "#/definitions/message",
+"description": "A message relevant to the region."
+
+},
+"properties": {
+"$ref": "#/definitions/propertyBag",
+"description": "Key/value pairs that provide additional information about the region."
+}
+}
+},
+"artifact": {
+"description": "A single artifact. In some cases, this artifact might be nested within another artifact.",
+"additionalProperties": false,
+"type": "object",
+"properties": {
+"description": {
+"$ref": "#/definitions/message",
+"description": "A short description of the artifact."
+},
+"location": {
+"$ref": "#/definitions/artifactLocation",
+"description": "The location of the artifact."
+
+
+},
+"location": {
+"description": "A location within a programming artifact.",
+"additionalProperties": false,
+"type": "object",
+"properties": {
+"id": {
+"description": "Value that distinguishes this location from all other locations within a single result object.",
+"type": "integer",
+"minimum": -1,
+"default": -1
+},
+"physicalLocation": {
+"$ref": "#/definitions/physicalLocation",
+"description": "Identifies the artifact and region."
+},
+"logicalLocations": {
+"description": "The logical locations associated with the result.",
+"type": "array",
+"minItems": 0,
+"uniqueItems": true,
+"default": [],
+"items": {
+"$ref": "#/definitions/logicalLocation"
+}
+},
+"properties": {
+"$ref": "#/definitions/propertyBag",
+"description": "Key/value pairs that provide additional information about the location."
+}
+
+}
+},
+"artifactLocation": {
+"description": "Specifies the location of an artifact.",
+"additionalProperties": false,
+"type": "object",
+"properties": {
+"uri": {
+"description": "A string containing a valid relative or absolute URI.",
+"type": "string",
+"format": "uri-reference"
+},
+"uriBaseId": {
+"description": "A string which indirectly specifies the absolute URI with respect to which a relative URI in the \"uri\" property is interpreted.",
+"type": "string"
+},
+"index": {
+"description": "The index within the run artifacts array of the artifact object associated with the artifact location.",
+"type": "integer",
+"default": -1,
+"minimum": -1
+},
+"description": {
+"$ref": "#/definitions/message",
+"description": "A short description of the artifact location."
+},
+"properties": {
+"$ref": "#/definitions/propertyBag",
+"description": "Key/value pairs that provide additional information about the artifact location."
+}
+}
+},
+"message": {
+"description": "Encapsulates a message intended to be read by the end user.",
+"type": "object",
+"additionalProperties": false,
+"properties": {
+"text": {
+"description": "A plain text message string.",
+"type": "string"
+},
+"markdown": {
+"description": "A Markdown message string.",
+"type": "string"
+},
+"id": {
+"description": "The identifier for this message.",
+"type": "string"
+},
+"arguments": {
+"description": "An array of strings to substitute into the message string.",
+"type": "array",
+"minItems": 0,
+"uniqueItems": false,
+"default": [],
+"items": {
+"type": "string"
+}
+},
+"properties": {
+"$ref": "#/definitions/propertyBag",
+"description": "Key/value pairs that provide additional information about the message."
+}
+
+
+
