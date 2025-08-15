@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://raw.githubusercontent.com/alkinkzldr/ultimate-automizer-json-schemas/refs/heads/main/minimal-schema.json",
   "title": "Minimal SARIF Subset Schema",
   "type": "object",
   "required": [
