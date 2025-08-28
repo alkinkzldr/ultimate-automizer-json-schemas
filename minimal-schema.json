@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Minimal SARIF Subset Schema",
+  "title": "SARIF Schema",
   "type": "object",
   "required": [
     "version",
@@ -42,6 +42,7 @@
                     "type": "string"
                   },
                   "rules": {
+                    "description": "An array of reporting descriptor objects.",
                     "type": "array",
                     "items": {
                       "type": "object",
@@ -50,12 +51,15 @@
                       ],
                       "properties": {
                         "id": {
+                          "description": "The stable, unique identifier of the rule.",
                           "type": "string"
                         },
                         "name": {
+                          "description": "The name of the rule.",
                           "type": "string"
                         },
                         "shortDescription": {
+                          "description": "A short description of the rule.",
                           "type": "object",
                           "properties": {
                             "text": {
@@ -64,6 +68,7 @@
                           }
                         },
                         "fullDescription": {
+                          "description": "A full description of the rule.",
                           "type": "object",
                           "properties": {
                             "text": {
@@ -79,19 +84,23 @@
             }
           },
           "results": {
+            "description": "An array of result objects.",
             "type": "array",
             "items": {
               "type": "object",
               "required": [
                 "ruleId",
                 "message",
-                "locations"
+                "locations",
+                "level"
               ],
               "properties": {
                 "ruleId": {
+                  "description": "The stable, unique identifier of the rule that was violated.",
                   "type": "string"
                 },
                 "message": {
+                  "description": "A message that describes the result.",
                   "type": "object",
                   "properties": {
                     "text": {
@@ -99,7 +108,13 @@
                     }
                   }
                 },
+                "level": {
+                  "description": "A value specifying the severity level of the result.",
+                  "default": "warning",
+                  "enum": ["none", "note", "warning", "error"]
+                },
                 "locations": {
+                  "description": "An array of one or more locations relevant to the result.",
                   "type": "array",
                   "items": {
                     "type": "object",
@@ -132,21 +147,34 @@
                   }
                 },
                 "codeFlows": {
+                  "description": "An array of 'codeFlow' objects relevant to the result.",
                   "type": "array",
                   "items": {
                     "type": "object",
                     "properties": {
                       "threadFlows": {
+                        "description": "An array of one or more unique threadFlow objects, each of which describes the progress of a program through a thread of execution.",
                         "type": "array",
                         "items": {
                           "type": "object",
                           "properties": {
                             "locations": {
+                              "description": "A temporally ordered array of 'threadFlowLocation' objects, each of which describes a location visited by the tool while producing the result.",
                               "type": "array",
                               "items": {
                                 "type": "object",
                                 "properties": {
+                                  "message": {
+                                    "description": "A message relevant to the threadflow location. - also arguments (?)",
+                                    "type": "object",
+                                    "properties": {
+                                      "text": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  },
                                   "location": {
+                                    "description": "A location within a programming artifact.",
                                     "type": "object",
                                     "properties": {
                                       "physicalLocation": {
@@ -173,10 +201,19 @@
                                     }
                                   },
                                   "properties": {
+                                    "description": "Key/value pairs that provide additional information about the threadflow location.",
                                     "type": "object",
                                     "properties": {
-                                      "variableState": {
-                                        "type": "string"
+                                      "flowState": {
+                                        "type": "object",
+                                        "properties": {
+                                          "expression": {
+                                              "type": "string"
+                                            },
+                                            "value": {
+                                              "type": "string"
+                                            }
+                                        }
                                       }
                                     }
                                   }
