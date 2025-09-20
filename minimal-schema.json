@@ -7,6 +7,27 @@
     "runs"
   ],
   "properties": {
+    "tool": {
+      "driver": {
+        "name": "string",
+        "version": "string", 
+        "properties": {
+            "settings": {
+              "divisionByZero": "boolean",
+              "pointerDereferenceValidity": "boolean",
+              "dataRaces": "boolean",
+              "sIntegerOverflow": "boolean",
+              "assertions": "boolean"
+            }
+        }
+      },
+      "extensions": {
+        "type": "array",
+        "items": {
+         "$ref": "#/definitions/toolComponent"
+        }
+      }  
+    },
     "version": {
       "type": "string",
       "enum": [
@@ -94,6 +115,10 @@
                 "locations",
                 "level"
               ],
+              "resultProvenance":{
+                "firstDetectionTimeUtc": "string",
+                "format": "date-time"
+              },
               "properties": {
                 "ruleId": {
                   "description": "The stable, unique identifier of the rule that was violated.",
@@ -231,6 +256,13 @@
           }
         }
       }
+    }
+  },
+  "definitions": {
+    "toolComponent": {
+      "description": "string",
+      "required": ["name"]
+
     }
   }
 }
